@@ -14,41 +14,6 @@ export function meta({}: Route.MetaArgs) {
   return [
     { title },
     { name: "description", content: description },
-    {
-      name: "keywords",
-      content: [
-        "unit converter",
-        "length converter",
-        "meters to feet",
-        "cm to inches",
-        "weight converter",
-        "kg to lbs",
-        "oz to g",
-        "temperature converter",
-        "celsius to fahrenheit",
-        "kelvin to celsius",
-        "cooking converter",
-        "cups to grams",
-        "cups to ml",
-        "volume converter",
-        "liters to gallons",
-        "area converter",
-        "square feet to square meters",
-        "speed converter",
-        "mph to kph",
-        "knots to mph",
-        "time converter",
-        "hours to minutes",
-        "currency converter",
-        "usd to eur",
-        "pressure converter",
-        "psi to bar",
-        "energy converter",
-        "joules to calories",
-        "power converter",
-        "watts to horsepower",
-      ].join(", "),
-    },
     { name: "robots", content: "index,follow,max-image-preview:large" },
     { property: "og:title", content: title },
     { property: "og:description", content: description },
@@ -64,6 +29,108 @@ export function meta({}: Route.MetaArgs) {
 }
 
 /* =========================================================
+   Related Tools (Card Grid)
+========================================================= */
+
+const ExternalToolCards = () => {
+  const tools = [
+    {
+      name: "All Text Converters",
+      emoji: "🔤",
+      url: "https://www.alltextconverters.com",
+      description:
+        "Quickly convert text formats like uppercase, lowercase, title case, and more in one simple tool.",
+    },
+    {
+      name: "Morse Code Translator",
+      emoji: "📡",
+      url: "https://www.morsewords.com",
+      description:
+        "Translate text to Morse code and back instantly, complete with audio playback for learning and fun.",
+    },
+    {
+      name: "Typing Practice & Speed",
+      emoji: "⌨️",
+      url: "https://www.freetypingcamp.com",
+      description:
+        "Build fast, accurate typing skills with guided lessons, games, and real-time accuracy tracking.",
+    },
+    {
+      name: "Learn Word Games",
+      emoji: "🧩",
+      url: "https://www.learnwordgames.com",
+      description:
+        "Wordle, crosswords, and anagram strategies. Improve your brain and win more puzzles.",
+    },
+    {
+      name: "All Fitness Calculators",
+      emoji: "💪",
+      url: "https://www.allfitnesscalculators.com",
+      description:
+        "BMR, BMI, calorie burn, ideal weight, and body fat calculators to help you hit your health goals.",
+    },
+    {
+      name: "Timers & Stopwatches",
+      emoji: "⏱️",
+      url: "https://www.ilovetimers.com",
+      description:
+        "Simple countdown timers and stopwatches for workouts, cooking, study sessions, and more.",
+    },
+    {
+      name: "GPA Calculator Hub",
+      emoji: "🎓",
+      url: "https://www.allgpacalculators.com",
+      description:
+        "Calculate college, semester, and weighted GPAs for any school or grading system around the world.",
+    },
+    {
+      name: "Step Counter & Pedometer",
+      emoji: "🚶‍♂️",
+      url: "https://ilovesteps.com/",
+      description:
+        "Track your daily steps and movement progress. Perfect for fitness goals and maintaining activity streaks.",
+    },
+    {
+      name: "Habit Tracker",
+      emoji: "✅",
+      url: "https://ilovehabits.com/",
+      description:
+        "Build better habits and improve consistency with a clean, motivating daily habit tracker.",
+    },
+  ];
+
+  return (
+    <section className="mt-14 mb-3 max-w-[1200px] mx-auto ">
+      <h2 className="text-2xl font-bold text-sky-900 mb-6 text-center">
+        More Helpful Tools You Can Use
+      </h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {tools.map((tool, i) => (
+          <a
+            key={i}
+            href={tool.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-5 bg-white border border-sky-200 rounded-xl shadow-sm 
+            flex flex-col gap-3 transition-transform hover:scale-[1.03]
+            hover:shadow-lg hover:border-sky-400"
+          >
+            <div className="flex items-center gap-3 text-sky-900">
+              <span className="text-2xl">{tool.emoji}</span>
+              <span className="font-semibold text-lg">{tool.name}</span>
+            </div>
+            <p className="text-sky-700 text-base leading-snug">
+              {tool.description}
+            </p>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+/* =========================================================
    LOADER
 ========================================================= */
 export function loader() {
@@ -71,175 +138,602 @@ export function loader() {
 }
 
 /* =========================================================
-   SAMPLE CONVERTER WIDGETS
-   (Replace with full-featured calculators later)
+   IMPROVED MINI CONVERTERS (Grid Format)
 ========================================================= */
+
 function InputField({
-  label,
   value,
   onChange,
+  placeholder,
 }: {
-  label: string;
-  value: number;
-  onChange: (n: number) => void;
+  value: string;
+  onChange: (t: string) => void;
+  placeholder?: string;
 }) {
   return (
-    <label className="block text-sm font-medium text-sky-900">
-      {label}
-      <input
-        type="number"
-        value={value}
-        onChange={(e) => onChange(parseFloat(e.target.value) || 0)}
-        className="ml-2 w-28 rounded border border-sky-300 px-2 py-1 text-sky-800"
-      />
-    </label>
+    <input
+      type="text"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      className="w-full rounded-lg border border-sky-300 px-3 py-2 text-base text-sky-900
+      focus:outline-none focus:ring-2 focus:ring-sky-400"
+      inputMode="decimal"
+    />
   );
 }
 
-const SectionBox = ({ children }: { children: React.ReactNode }) => (
-  <div className="mt-4 rounded-xl border border-sky-200 bg-white p-4 shadow-sm space-y-2">
-    {children}
+/* =========================================================
+   FULL BI-DIRECTIONAL CONVERTERS
+   Titles = Full unit names
+   Placeholders = Short symbols
+   No forced "0"
+========================================================= */
+
+/* ✅ Shared Grid Component */
+const ConverterGrid = ({
+  titles,
+  units,
+  values,
+  onChanges,
+}: {
+  titles: string[];
+  units: string[];
+  values: string[];
+  onChanges: ((t: string) => void)[];
+}) => (
+  <div className="bg-white border border-sky-200 rounded-xl shadow-sm p-4 mt-6 space-y-3">
+    {/* Full Titles */}
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-sm sm:text-base font-semibold text-sky-900">
+      {titles.map((t, i) => (
+        <span key={i}>{t}</span>
+      ))}
+    </div>
+
+    {/* Inputs */}
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      {values.map((v, i) => (
+        <InputField
+          key={i}
+          value={v}
+          onChange={(t) => onChanges[i](t)}
+          placeholder={units[i]}
+        />
+      ))}
+    </div>
   </div>
 );
 
+/* ======================================================================
+   ✅ INDIVIDUAL CONVERTERS (ALL UNITS BIDIRECTIONAL + BLANKABLE INPUTS)
+   NOTE: No default "0" — values start empty and convert only when typed
+====================================================================== */
+
+/* ✅ Length */
 function LengthConv() {
-  const [m, setM] = useState(0);
+  const [m, setM] = useState("");
+  const [ft, setFt] = useState("");
+  const [inch, setInch] = useState("");
+  const [yd, setYd] = useState("");
+
+  const update = (u: string, raw: string) => {
+    if (raw === "") return (setM(""), setFt(""), setInch(""), setYd(""));
+    const v = parseFloat(raw);
+    if (isNaN(v)) return;
+
+    if (u === "m") {
+      setM(raw);
+      setFt((v * 3.28084).toFixed(3));
+      setInch((v * 39.37).toFixed(3));
+      setYd((v * 1.09361).toFixed(3));
+    } else if (u === "ft") {
+      const x = v / 3.28084;
+      setM(x.toFixed(3));
+      setFt(raw);
+      setInch((x * 39.37).toFixed(3));
+      setYd((x * 1.09361).toFixed(3));
+    } else if (u === "in") {
+      const x = v / 39.37;
+      setM(x.toFixed(3));
+      setFt((x * 3.28084).toFixed(3));
+      setInch(raw);
+      setYd((x * 1.09361).toFixed(3));
+    } else if (u === "yd") {
+      const x = v / 1.09361;
+      setM(x.toFixed(3));
+      setFt((x * 3.28084).toFixed(3));
+      setInch((x * 39.37).toFixed(3));
+      setYd(raw);
+    }
+  };
+
   return (
-    <SectionBox>
-      <InputField label="Meters:" value={m} onChange={setM} />
-      <p>
-        {m} m = {(m * 3.28084).toFixed(2)} ft = {(m * 39.37).toFixed(2)} in
-      </p>
-    </SectionBox>
+    <ConverterGrid
+      titles={["Meters", "Feet", "Inches", "Yards"]}
+      units={["m", "ft", "in", "yd"]}
+      values={[m, ft, inch, yd]}
+      onChanges={[
+        (t) => update("m", t),
+        (t) => update("ft", t),
+        (t) => update("in", t),
+        (t) => update("yd", t),
+      ]}
+    />
   );
 }
 
+/* ✅ Weight */
 function WeightConv() {
-  const [kg, setKg] = useState(0);
+  const [kg, setKg] = useState("");
+  const [lb, setLb] = useState("");
+  const [oz, setOz] = useState("");
+  const [st, setSt] = useState("");
+
+  const update = (u: string, raw: string) => {
+    if (raw === "") return (setKg(""), setLb(""), setOz(""), setSt(""));
+    const v = parseFloat(raw);
+    if (isNaN(v)) return;
+
+    if (u === "kg") {
+      setKg(raw);
+      setLb((v * 2.20462).toFixed(3));
+      setOz((v * 35.274).toFixed(3));
+      setSt((v * 0.157473).toFixed(4));
+    } else if (u === "lb") {
+      const x = v / 2.20462;
+      setKg(x.toFixed(3));
+      setLb(raw);
+      setOz((x * 35.274).toFixed(3));
+      setSt((x * 0.157473).toFixed(4));
+    } else if (u === "oz") {
+      const x = v / 35.274;
+      setKg(x.toFixed(3));
+      setLb((x * 2.20462).toFixed(3));
+      setOz(raw);
+      setSt((x * 0.157473).toFixed(4));
+    } else if (u === "st") {
+      const x = v / 0.157473;
+      setKg(x.toFixed(3));
+      setLb((x * 2.20462).toFixed(3));
+      setOz((x * 35.274).toFixed(3));
+      setSt(raw);
+    }
+  };
+
   return (
-    <SectionBox>
-      <InputField label="Kilograms:" value={kg} onChange={setKg} />
-      <p>
-        {kg} kg = {(kg * 2.20462).toFixed(2)} lbs = {(kg * 35.274).toFixed(2)}{" "}
-        oz
-      </p>
-    </SectionBox>
+    <ConverterGrid
+      titles={["Kilograms", "Pounds", "Ounces", "Stones"]}
+      units={["kg", "lb", "oz", "st"]}
+      values={[kg, lb, oz, st]}
+      onChanges={[
+        (t) => update("kg", t),
+        (t) => update("lb", t),
+        (t) => update("oz", t),
+        (t) => update("st", t),
+      ]}
+    />
   );
 }
 
+/* ✅ Temperature */
 function TempConv() {
-  const [c, setC] = useState(0);
+  const [c, setC] = useState("");
+  const [f, setF] = useState("");
+  const [k, setK] = useState("");
+
+  const update = (u: string, raw: string) => {
+    if (raw === "") return (setC(""), setF(""), setK(""));
+    const v = parseFloat(raw);
+    if (isNaN(v)) return;
+
+    if (u === "c") {
+      setC(raw);
+      setF(((v * 9) / 5 + 32).toFixed(2));
+      setK((v + 273.15).toFixed(2));
+    } else if (u === "f") {
+      const cVal = ((v - 32) * 5) / 9;
+      setC(cVal.toFixed(2));
+      setF(raw);
+      setK((cVal + 273.15).toFixed(2));
+    } else if (u === "k") {
+      const cVal = v - 273.15;
+      setC(cVal.toFixed(2));
+      setF(((cVal * 9) / 5 + 32).toFixed(2));
+      setK(raw);
+    }
+  };
+
   return (
-    <SectionBox>
-      <InputField label="Celsius:" value={c} onChange={setC} />
-      <p>
-        {c} °C = {(c * (9 / 5) + 32).toFixed(2)} °F = {(c + 273.15).toFixed(2)}{" "}
-        K
-      </p>
-    </SectionBox>
+    <ConverterGrid
+      titles={["Celsius", "Fahrenheit", "Kelvin"]}
+      units={["°C", "°F", "K"]}
+      values={[c, f, k]}
+      onChanges={[
+        (t) => update("c", t),
+        (t) => update("f", t),
+        (t) => update("k", t),
+      ]}
+    />
   );
 }
 
+/* ✅ Cooking */
 function CookingConv() {
-  const [cups, setCups] = useState(0);
+  const [cup, setCup] = useState("");
+  const [g, setG] = useState("");
+  const [ml, setMl] = useState("");
+
+  const update = (u: string, raw: string) => {
+    if (raw === "") return (setCup(""), setG(""), setMl(""));
+    const v = parseFloat(raw);
+    if (isNaN(v)) return;
+
+    if (u === "cups") {
+      setCup(raw);
+      setG((v * 120).toFixed(2));
+      setMl((v * 240).toFixed(2));
+    } else if (u === "g") {
+      const x = v / 120;
+      setCup(x.toFixed(3));
+      setG(raw);
+      setMl((x * 240).toFixed(2));
+    } else if (u === "ml") {
+      const x = v / 240;
+      setCup(x.toFixed(3));
+      setG((x * 120).toFixed(2));
+      setMl(raw);
+    }
+  };
+
   return (
-    <SectionBox>
-      <InputField label="Cups (flour):" value={cups} onChange={setCups} />
-      <p>
-        {cups} cups ≈ {(cups * 120).toFixed(1)} g ≈ {(cups * 240).toFixed(0)} ml
-      </p>
-      <p className="text-xs text-sky-600">
-        *Values vary by ingredient; this uses flour reference
-      </p>
-    </SectionBox>
+    <ConverterGrid
+      titles={["Cups (Flour)", "Grams", "Milliliters"]}
+      units={["cups", "g", "ml"]}
+      values={[cup, g, ml]}
+      onChanges={[
+        (t) => update("cups", t),
+        (t) => update("g", t),
+        (t) => update("ml", t),
+      ]}
+    />
   );
 }
 
+/* ✅ Volume */
 function VolumeConv() {
-  const [l, setL] = useState(0);
+  const [l, setL] = useState("");
+  const [gal, setGal] = useState("");
+  const [qt, setQt] = useState("");
+  const [cups, setCups] = useState("");
+
+  const update = (u: string, raw: string) => {
+    if (raw === "") return (setL(""), setGal(""), setQt(""), setCups(""));
+    const v = parseFloat(raw);
+    if (isNaN(v)) return;
+
+    if (u === "L") {
+      setL(raw);
+      setGal((v * 0.264172).toFixed(3));
+      setQt((v * 1.05669).toFixed(3));
+      setCups((v * 4.22675).toFixed(2));
+    } else if (u === "gal") {
+      const x = v / 0.264172;
+      setL(x.toFixed(3));
+      setGal(raw);
+      setQt((x * 1.05669).toFixed(3));
+      setCups((x * 4.22675).toFixed(2));
+    } else if (u === "qt") {
+      const x = v / 1.05669;
+      setL(x.toFixed(3));
+      setGal((x * 0.264172).toFixed(3));
+      setQt(raw);
+      setCups((x * 4.22675).toFixed(2));
+    } else if (u === "cups") {
+      const x = v / 4.22675;
+      setL(x.toFixed(3));
+      setGal((x * 0.264172).toFixed(3));
+      setQt((x * 1.05669).toFixed(3));
+      setCups(raw);
+    }
+  };
+
   return (
-    <SectionBox>
-      <InputField label="Liters:" value={l} onChange={setL} />
-      <p>
-        {l} L = {(l * 0.264172).toFixed(3)} gal = {(l * 4.22675).toFixed(2)} qt
-      </p>
-    </SectionBox>
+    <ConverterGrid
+      titles={["Liters", "Gallons", "Quarts", "Cups"]}
+      units={["L", "gal", "qt", "cups"]}
+      values={[l, gal, qt, cups]}
+      onChanges={[
+        (t) => update("L", t),
+        (t) => update("gal", t),
+        (t) => update("qt", t),
+        (t) => update("cups", t),
+      ]}
+    />
   );
 }
 
+/* ✅ Area */
 function AreaConv() {
-  const [sqm, setSqm] = useState(0);
+  const [m2, setM2] = useState("");
+  const [ft2, setFt2] = useState("");
+  const [ac, setAc] = useState("");
+  const [ha, setHa] = useState("");
+
+  const update = (u: string, raw: string) => {
+    if (raw === "") return (setM2(""), setFt2(""), setAc(""), setHa(""));
+    const v = parseFloat(raw);
+    if (isNaN(v)) return;
+
+    if (u === "m²") {
+      setM2(raw);
+      setFt2((v * 10.7639).toFixed(3));
+      setAc((v * 0.000247105).toFixed(5));
+      setHa((v * 0.0001).toFixed(5));
+    } else if (u === "ft²") {
+      const x = v / 10.7639;
+      setM2(x.toFixed(3));
+      setFt2(raw);
+      setAc((x * 0.000247105).toFixed(5));
+      setHa((x * 0.0001).toFixed(5));
+    } else if (u === "ac") {
+      const x = v / 0.000247105;
+      setM2(x.toFixed(3));
+      setFt2((x * 10.7639).toFixed(3));
+      setAc(raw);
+      setHa((x * 0.0001).toFixed(5));
+    } else if (u === "ha") {
+      const x = v / 0.0001;
+      setM2(x.toFixed(3));
+      setFt2((x * 10.7639).toFixed(3));
+      setAc((x * 0.000247105).toFixed(5));
+      setHa(raw);
+    }
+  };
+
   return (
-    <SectionBox>
-      <InputField label="Square Meters:" value={sqm} onChange={setSqm} />
-      <p>
-        {sqm} m² = {(sqm * 10.7639).toFixed(2)} ft² ={" "}
-        {(sqm * 0.000247105).toFixed(4)} acres
-      </p>
-    </SectionBox>
+    <ConverterGrid
+      titles={["Square Meters", "Square Feet", "Acres", "Hectares"]}
+      units={["m²", "ft²", "ac", "ha"]}
+      values={[m2, ft2, ac, ha]}
+      onChanges={[
+        (t) => update("m²", t),
+        (t) => update("ft²", t),
+        (t) => update("ac", t),
+        (t) => update("ha", t),
+      ]}
+    />
   );
 }
 
+/* ✅ Speed */
 function SpeedConv() {
-  const [mph, setMph] = useState(0);
+  const [mph, setMph] = useState("");
+  const [kmh, setKmh] = useState("");
+  const [kt, setKt] = useState("");
+  const [mach, setMach] = useState("");
+
+  const update = (u: string, raw: string) => {
+    if (raw === "") return (setMph(""), setKmh(""), setKt(""), setMach(""));
+    const v = parseFloat(raw);
+    if (isNaN(v)) return;
+
+    if (u === "mph") {
+      setMph(raw);
+      setKmh((v * 1.60934).toFixed(3));
+      setKt((v * 0.868976).toFixed(3));
+      setMach((v / 761.2).toFixed(5));
+    } else if (u === "km/h") {
+      const x = v / 1.60934;
+      setMph(x.toFixed(3));
+      setKmh(raw);
+      setKt((x * 0.868976).toFixed(3));
+      setMach((x / 761.2).toFixed(5));
+    } else if (u === "kt") {
+      const x = v / 0.868976;
+      setMph(x.toFixed(3));
+      setKmh((x * 1.60934).toFixed(3));
+      setKt(raw);
+      setMach((x / 761.2).toFixed(5));
+    } else if (u === "mach") {
+      const x = v * 761.2;
+      setMph(x.toFixed(3));
+      setKmh((x * 1.60934).toFixed(3));
+      setKt((x * 0.868976).toFixed(3));
+      setMach(raw);
+    }
+  };
+
   return (
-    <SectionBox>
-      <InputField label="Miles per Hour:" value={mph} onChange={setMph} />
-      <p>
-        {mph} mph = {(mph * 1.60934).toFixed(2)} km/h ={" "}
-        {(mph * 0.868976).toFixed(2)} knots
-      </p>
-    </SectionBox>
+    <ConverterGrid
+      titles={["Miles per Hour", "Kilometers per Hour", "Knots", "Mach"]}
+      units={["mph", "km/h", "kt", "mach"]}
+      values={[mph, kmh, kt, mach]}
+      onChanges={[
+        (t) => update("mph", t),
+        (t) => update("km/h", t),
+        (t) => update("kt", t),
+        (t) => update("mach", t),
+      ]}
+    />
   );
 }
 
+/* ✅ Time */
 function TimeConv() {
-  const [h, setH] = useState(0);
+  const [h, setH] = useState("");
+  const [min, setMin] = useState("");
+  const [sec, setSec] = useState("");
+  const [days, setDays] = useState("");
+
+  const update = (u: string, raw: string) => {
+    if (raw === "") return (setH(""), setMin(""), setSec(""), setDays(""));
+    const v = parseFloat(raw);
+    if (isNaN(v)) return;
+
+    if (u === "h") {
+      setH(raw);
+      setMin((v * 60).toFixed(0));
+      setSec((v * 3600).toFixed(0));
+      setDays((v / 24).toFixed(5));
+    } else if (u === "min") {
+      const x = v / 60;
+      setH(x.toFixed(3));
+      setMin(raw);
+      setSec((x * 3600).toFixed(0));
+      setDays((x / 24).toFixed(5));
+    } else if (u === "sec") {
+      const x = v / 3600;
+      setH(x.toFixed(3));
+      setMin((x * 60).toFixed(0));
+      setSec(raw);
+      setDays((x / 24).toFixed(5));
+    } else if (u === "days") {
+      const x = v * 24;
+      setH(x.toFixed(3));
+      setMin((x * 60).toFixed(0));
+      setSec((x * 3600).toFixed(0));
+      setDays(raw);
+    }
+  };
+
   return (
-    <SectionBox>
-      <InputField label="Hours:" value={h} onChange={setH} />
-      <p>
-        {h} h = {(h * 60).toFixed(0)} min = {(h * 3600).toFixed(0)} sec ={" "}
-        {(h / 24).toFixed(2)} days
-      </p>
-    </SectionBox>
+    <ConverterGrid
+      titles={["Hours", "Minutes", "Seconds", "Days"]}
+      units={["h", "min", "sec", "days"]}
+      values={[h, min, sec, days]}
+      onChanges={[
+        (t) => update("h", t),
+        (t) => update("min", t),
+        (t) => update("sec", t),
+        (t) => update("days", t),
+      ]}
+    />
   );
 }
 
+/* ✅ Pressure */
 function PressureConv() {
-  const [psi, setPsi] = useState(0);
+  const [psi, setPsi] = useState("");
+  const [bar, setBar] = useState("");
+  const [kpa, setKpa] = useState("");
+
+  const update = (u: string, raw: string) => {
+    if (raw === "") return (setPsi(""), setBar(""), setKpa(""));
+    const v = parseFloat(raw);
+    if (isNaN(v)) return;
+
+    if (u === "psi") {
+      setPsi(raw);
+      setBar((v * 0.0689476).toFixed(4));
+      setKpa((v * 6.89476).toFixed(2));
+    } else if (u === "bar") {
+      const x = v / 0.0689476;
+      setPsi(x.toFixed(3));
+      setBar(raw);
+      setKpa((x * 6.89476).toFixed(2));
+    } else if (u === "kPa") {
+      const x = v / 6.89476;
+      setPsi(x.toFixed(3));
+      setBar((x * 0.0689476).toFixed(4));
+      setKpa(raw);
+    }
+  };
+
   return (
-    <SectionBox>
-      <InputField label="PSI:" value={psi} onChange={setPsi} />
-      <p>
-        {psi} psi = {(psi * 0.0689476).toFixed(3)} bar ={" "}
-        {(psi * 6.89476).toFixed(2)} kPa
-      </p>
-    </SectionBox>
+    <ConverterGrid
+      titles={["PSI", "Bar", "Kilopascals"]}
+      units={["psi", "bar", "kPa"]}
+      values={[psi, bar, kpa]}
+      onChanges={[
+        (t) => update("psi", t),
+        (t) => update("bar", t),
+        (t) => update("kPa", t),
+      ]}
+    />
   );
 }
 
+/* ✅ Energy */
 function EnergyConv() {
-  const [j, setJ] = useState(0);
+  const [j, setJ] = useState("");
+  const [cal, setCal] = useState("");
+  const [kcal, setKcal] = useState("");
+
+  const update = (u: string, raw: string) => {
+    if (raw === "") return (setJ(""), setCal(""), setKcal(""));
+    const v = parseFloat(raw);
+    if (isNaN(v)) return;
+
+    if (u === "J") {
+      setJ(raw);
+      setCal((v * 0.239006).toFixed(4));
+      setKcal((v / 4184).toFixed(6));
+    } else if (u === "cal") {
+      const x = v / 0.239006;
+      setJ(x.toFixed(3));
+      setCal(raw);
+      setKcal((x / 4184).toFixed(6));
+    } else if (u === "kcal") {
+      const x = v * 4184;
+      setJ(x.toFixed(3));
+      setCal((x * 0.239006).toFixed(4));
+      setKcal(raw);
+    }
+  };
+
   return (
-    <SectionBox>
-      <InputField label="Joules:" value={j} onChange={setJ} />
-      <p>
-        {j} J = {(j * 0.239006).toFixed(3)} cal = {(j / 4184).toFixed(4)} kcal
-      </p>
-    </SectionBox>
+    <ConverterGrid
+      titles={["Joules", "Calories", "Kilocalories"]}
+      units={["J", "cal", "kcal"]}
+      values={[j, cal, kcal]}
+      onChanges={[
+        (t) => update("J", t),
+        (t) => update("cal", t),
+        (t) => update("kcal", t),
+      ]}
+    />
   );
 }
 
+/* ✅ Power */
 function PowerConv() {
-  const [w, setW] = useState(0);
+  const [w, setW] = useState("");
+  const [hp, setHp] = useState("");
+  const [kw, setKw] = useState("");
+
+  const update = (u: string, raw: string) => {
+    if (raw === "") return (setW(""), setHp(""), setKw(""));
+    const v = parseFloat(raw);
+    if (isNaN(v)) return;
+
+    if (u === "W") {
+      setW(raw);
+      setHp((v / 746).toFixed(4));
+      setKw((v / 1000).toFixed(4));
+    } else if (u === "hp") {
+      const x = v * 746;
+      setW(x.toFixed(3));
+      setHp(raw);
+      setKw((x / 1000).toFixed(4));
+    } else if (u === "kW") {
+      const x = v * 1000;
+      setW(x.toFixed(3));
+      setHp((x / 746).toFixed(4));
+      setKw(raw);
+    }
+  };
+
   return (
-    <SectionBox>
-      <InputField label="Watts:" value={w} onChange={setW} />
-      <p>
-        {w} W = {(w / 746).toFixed(3)} hp (mechanical horsepower)
-      </p>
-    </SectionBox>
+    <ConverterGrid
+      titles={["Watts", "Horsepower", "Kilowatts"]}
+      units={["W", "hp", "kW"]}
+      values={[w, hp, kw]}
+      onChanges={[
+        (t) => update("W", t),
+        (t) => update("hp", t),
+        (t) => update("kW", t),
+      ]}
+    />
   );
 }
 
@@ -360,76 +854,32 @@ export default function Home({ loaderData: { nowISO } }: Route.ComponentProps) {
   ];
 
   return (
-    <main className="bg-sky-50 text-sky-900">
+    <main className="bg-sky-50/10 text-sky-900">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* =========== TOP BAR =========== */}
-      <div className="w-full border-b border-sky-100 bg-sky-50/50">
-        <div className="mx-auto max-w-7xl px-4 py-2 text-sm text-sky-700">
-          Free instant conversions • Last updated{" "}
-          {new Date(nowISO).toLocaleDateString()}
-        </div>
-      </div>
-
       {/* =========== HERO =========== */}
-      <section className="mx-auto max-w-7xl px-4 py-12">
-        <div className="grid gap-8 md:grid-cols-2 md:items-center">
-          <div className="space-y-5">
-            <h1 className="text-4xl font-extrabold tracking-tight">
-              All-in-One Free Online Unit Converters
-            </h1>
-            <p className="text-lg text-sky-800">
-              Convert length, weight, temperature, cooking, volume, area, speed,
-              time, pressure, energy, power, and currency instantly on one page
-              - no pop-ups or redirects.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {featured.slice(0, 4).map(([href, title]) => (
-                <a
-                  key={href}
-                  href={href as string}
-                  className="rounded-xl border border-sky-300 bg-white px-4 py-2 text-sky-800 shadow-sm hover:bg-sky-100"
-                >
-                  {title}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-3xl border border-sky-200 bg-white/70 p-5 shadow-sm">
-            <h2 className="text-base font-semibold text-sky-900">
-              Popular Conversions
-            </h2>
-            <ul className="mt-3 grid gap-2 text-sm text-sky-800 sm:grid-cols-2">
-              <li>• Meters ⇆ Feet ⇆ Inches</li>
-              <li>• Kilograms ⇆ Pounds ⇆ Ounces</li>
-              <li>• Celsius ⇆ Fahrenheit ⇆ Kelvin</li>
-              <li>• Cups ⇆ Grams ⇆ Milliliters</li>
-              <li>• Liters ⇆ Gallons ⇆ Quarts</li>
-              <li>• MPH ⇆ KPH ⇆ Knots</li>
-              <li>• PSI ⇆ Bar ⇆ kPa</li>
-              <li>• Watts ⇆ Horsepower</li>
-            </ul>
-            <a
-              href="#featured"
-              className="mt-4 inline-block rounded-lg bg-sky-100 px-3 py-1 text-xs font-medium text-sky-800 hover:bg-sky-200"
-            >
-              Browse All Tools ↓
-            </a>
-          </div>
+      <section className="flex w-full text-center justify-center items-center pt-6 pb-8">
+        <div className="space-y-5">
+          <h1 className="text-4xl font-extrabold tracking-tight">
+            All-in-One Free Online Unit Converters
+          </h1>
+          <p className="text-lg text-sky-800">
+            Convert length, weight, temperature, cooking, volume, area, speed,
+            time, pressure, energy, power, and currency instantly on one page -
+            no pop-ups or redirects.
+          </p>
         </div>
       </section>
 
       {/* =========== FEATURED GRID =========== */}
-      <section id="featured" className="mx-auto max-w-7xl px-4 py-12">
-        <h2 className="text-2xl font-bold text-sky-900">Featured Tools</h2>
-        <p className="mt-2 text-sky-800">
-          Jump to any built-in converter below:
-        </p>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section id="featured" className="mx-auto max-w-7xl px-4 pb-12">
+        <h2 className="text-2xl font-bold text-sky-900">
+          Featured Tools (Quick Access menu)
+        </h2>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {featured.map(([id, title, desc]) => (
             <a
               key={id}
@@ -438,9 +888,6 @@ export default function Home({ loaderData: { nowISO } }: Route.ComponentProps) {
             >
               <h3 className="text-base font-semibold text-sky-900">{title}</h3>
               <p className="mt-2 text-sm text-sky-800">{desc}</p>
-              <span className="mt-3 inline-block text-xs font-medium text-sky-700">
-                Jump to Converter ↓
-              </span>
             </a>
           ))}
         </div>
@@ -448,51 +895,80 @@ export default function Home({ loaderData: { nowISO } }: Route.ComponentProps) {
 
       {/* =========== CONVERTER SECTIONS =========== */}
       <div className="mx-auto max-w-7xl px-4 space-y-16">
-        <Section id="length" title="Length & Distance Converter">
+        <Section
+          id="length"
+          title="Length & Distance Converter (Meters to Feet and Inches)"
+        >
           <LengthConv />
         </Section>
-        <Section id="weight" title="Weight & Mass Converter">
+        <Section
+          id="weight"
+          title="Weight & Mass Converter (Kilograms to Pounds and Ounces)"
+        >
           <WeightConv />
         </Section>
-        <Section id="temperature" title="Temperature Converter">
+        <Section
+          id="temperature"
+          title="Temperature Converter (Celsius to Fahrenheit and Kelvin)"
+        >
           <TempConv />
         </Section>
-        <Section id="cooking" title="Cooking Measurement Converter">
+        <Section
+          id="cooking"
+          title="Cooking Measurement Converter (Cups to Grams and Milliliters)"
+        >
           <CookingConv />
         </Section>
-        <Section id="volume" title="Volume Converter">
+        <Section
+          id="volume"
+          title="Volume Converter (Liters to Gallons and Quarts)"
+        >
           <VolumeConv />
         </Section>
-        <Section id="area" title="Area Converter">
+        <Section
+          id="area"
+          title="Area Converter (Square Meters to Square Feet and Acres)"
+        >
           <AreaConv />
         </Section>
-        <Section id="speed" title="Speed Converter">
+        <Section id="speed" title="Speed Converter (MPH to KPH and Knots)">
           <SpeedConv />
         </Section>
-        <Section id="time" title="Time Converter">
+        <Section
+          id="time"
+          title="Time Converter (Minutes to Hours and Seconds)"
+        >
           <TimeConv />
         </Section>
-        <Section id="pressure" title="Pressure Converter">
+        <Section id="pressure" title="Pressure Converter (Psi to Bar and kPa)">
           <PressureConv />
         </Section>
-        <Section id="energy" title="Energy Converter">
+        <Section
+          id="energy"
+          title="Energy Converter (Joules to Calories and Kilocalories)"
+        >
           <EnergyConv />
         </Section>
-        <Section id="power" title="Power Converter">
+        <Section
+          id="power"
+          title="Power Converter (Watts to Horsepower and Kilowatts)"
+        >
           <PowerConv />
         </Section>
       </div>
 
+      <ExternalToolCards />
+
       {/* ===========================  
      SEO-Rich Content Section  
 =========================== */}
-      <section id="about-converters" className="mx-auto max-w-7xl px-4 py-16">
+      <section id="about" className="mx-auto max-w-7xl px-4 py-16">
         <div className="rounded-3xl border border-sky-200 bg-white p-6 shadow-sm space-y-5">
           <h2 className="text-2xl font-bold text-sky-900">
             Free All-in-One Unit Converters - Fast, Accurate & Mobile-Friendly
           </h2>
           <p className="text-sky-800 leading-relaxed">
-            <strong>I Love Unit Converters</strong> was built for students, home
+            <strong>iLoveUnitConverters</strong> was built for students, home
             cooks, DIY hobbyists, engineers, travelers, and anyone who needs
             reliable conversions without pop-ups or paywalls. Every calculator
             on this page is instant, ad-light, and designed for quick answers.
@@ -555,7 +1031,7 @@ export default function Home({ loaderData: { nowISO } }: Route.ComponentProps) {
       {/* ==========================================
      EXPANDED SEO-RICH CONTENT SECTION
 ========================================== */}
-      <section id="about-converters" className="mx-auto max-w-7xl px-4 py-20">
+      <section id="details" className="mx-auto max-w-7xl px-4 py-12">
         <div className="rounded-3xl border border-sky-200 bg-white p-6 shadow-sm space-y-6">
           <h2 className="text-3xl font-extrabold text-sky-900">
             Free, Accurate, All-in-One Unit Converters
